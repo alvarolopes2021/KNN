@@ -17,8 +17,6 @@ namespace KNN.Knn
                 info[i] = curr;
             }
 
-            var a = info.Where(w => w.dist.Equals(7.810249675906654)).ToList();
-
             Array.Sort(info);  // sort by distance
             Console.WriteLine("Nearest / Distance / Class");
             Console.WriteLine("==========================");
