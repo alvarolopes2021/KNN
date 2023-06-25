@@ -49,15 +49,23 @@ namespace KNN.Daos
 
                 try
                 {
-                    reader = cmd.ExecuteReader();  
-
-                    DataModel model = new DataModel();
+                    reader = cmd.ExecuteReader();                     
 
                     while (reader.Read())
                     {
-                        model.Id = reader.GetInt32("Id");
-                        model.Age = reader.GetInt32("Age");
-                        model.Menopause = reader.GetInt32("Menopause");
+                        DataModel model = new DataModel();
+
+                        model.Id = reader.GetInt32("id");
+                        model.Age = reader.GetInt32("age");
+                        model.Menopause = reader.GetInt32("menopause");
+                        model.TumorSize = reader.GetInt32("tumor-size");
+                        model.InvNodes = reader.GetInt32("inv-nodes");
+                        model.NodeCaps = reader.GetInt32("node-caps");
+                        model.DegMalig = reader.GetInt32("deg-malig");
+                        model.Breast = reader.GetInt32("breast");
+                        model.BreastQuad = reader.GetInt32("breast-quad");
+                        model.Irradiat = reader.GetInt32("irradiat");
+                        model.Class = reader.GetInt32("class");
 
                         list.Add(model);
                     }

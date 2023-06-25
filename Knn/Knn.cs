@@ -1,13 +1,14 @@
 ﻿
+using KNN.Models;
+
 namespace KNN.Knn
 {
     public class Knn
     {
-        public static int Classify(double[] unknown, double[][] trainData, int numClasses, int k)
-        {
-            int n = trainData.Length;
-            IndexAndDistance[] info = new IndexAndDistance[n];
-            for (int i = 0; i < n; ++i)
+        public static int Classify(DataModel unknown, List<DataModel> trainData, int numClasses, int k)
+        {            
+            IndexAndDistance[] info = new IndexAndDistance[trainData.Count];
+            for (int i = 0; i < trainData.Count; ++i)
             {
                 IndexAndDistance curr = new IndexAndDistance();
                 double dist = Distance(unknown, trainData[i]);
@@ -16,14 +17,16 @@ namespace KNN.Knn
                 info[i] = curr;
             }
 
+            var a = info.Where(w => w.dist.Equals(7.810249675906654)).ToList();
+
             Array.Sort(info);  // sort by distance
             Console.WriteLine("Nearest / Distance / Class");
             Console.WriteLine("==========================");
             for (int i = 0; i < k; ++i)
             {
-                int c = (int)trainData[info[i].idx][2];
+                int c = (int)trainData[info[i].idx].Class;
                 string dist = info[i].dist.ToString("F3");
-                Console.WriteLine("( " + trainData[info[i].idx][0] + "," + trainData[info[i].idx][1] + " )  :  " + dist + "        " + c);
+                Console.WriteLine("( " + trainData[info[i].idx].Id + "," + info[i].dist + " )  :  " + dist + "        " + c);
             }
 
             int result = Vote(info, trainData, numClasses, k);
@@ -31,13 +34,13 @@ namespace KNN.Knn
         }
 
 
-        public static int Vote(IndexAndDistance[] info, double[][] trainData, int numClasses, int k)
+        public static int Vote(IndexAndDistance[] info, List<DataModel> trainData, int numClasses, int k)
         {
             int[] votes = new int[numClasses];  // One cell per class
             for (int i = 0; i < k; ++i)
             {       // Just first k
                 int idx = info[i].idx;            // Which train item
-                int c = (int)trainData[idx][2];   // Class in last cell
+                int c = trainData[idx].Class;   // Class in last cell
                 ++votes[c];
             }
             int mostVotes = 0;
@@ -54,11 +57,14 @@ namespace KNN.Knn
         }
 
 
-        public static double Distance(double[] unknown, double[] data)
+        public static double Distance(DataModel unknown, DataModel data)
         {
-            double sum = 0.0;
-            for (int i = 0; i < unknown.Length; ++i)
-                sum += (unknown[i] - data[i]) * (unknown[i] - data[i]);
+            double sum = Math.Pow(unknown.Age - data.Age, 2) + Math.Pow(unknown.Menopause - data.Menopause, 2) +
+                Math.Pow(unknown.TumorSize - data.TumorSize, 2) + Math.Pow(unknown.InvNodes - data.InvNodes, 2) +
+                Math.Pow(unknown.NodeCaps - data.NodeCaps, 2) + Math.Pow(unknown.DegMalig - data.DegMalig, 2) +
+                Math.Pow(unknown.Breast - data.Breast, 2) + Math.Pow(unknown.BreastQuad - data.BreastQuad, 2) +
+                Math.Pow(unknown.Irradiat - data.Irradiat, 2) + Math.Pow(unknown.Class - data.Class, 2);
+
             return Math.Sqrt(sum);
         }
 
