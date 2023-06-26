@@ -16,15 +16,18 @@ DataModel unknown = new DataModel();
 // data input
 Console.WriteLine("Digite a idade do paciente: ");
 unknown.Age = int.Parse(Console.ReadLine());
-unknown.Age = Utils.ClassifyAge(unknown.Age);
 
-if (unknown.Age == 0)
+if (unknown.Age < 10)
 {
     Console.WriteLine("Idade inválida");
     Console.WriteLine("End k-NN demo ");
     Console.ReadLine();
     return;
 }
+
+unknown.Age = Utils.ClassifyAge(unknown.Age);
+
+
 Console.WriteLine('\n');
 
 Console.WriteLine("1 - antes dos 40: ");
@@ -83,8 +86,6 @@ Console.WriteLine("Recorrência: ");
 Console.WriteLine("1 - Não");
 Console.WriteLine("2 - Sim");
 unknown.Class= int.Parse(Console.ReadLine());
-
-Console.WriteLine(JsonSerializer.Serialize(unknown));
 
 int k = 7;
 
