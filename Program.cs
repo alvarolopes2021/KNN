@@ -80,13 +80,6 @@ Console.WriteLine("1 - Não");
 Console.WriteLine("2 - Sim");
 unknown.Irradiat= int.Parse(Console.ReadLine());
 
-
-Console.WriteLine('\n');
-Console.WriteLine("Recorrência: ");
-Console.WriteLine("1 - Não");
-Console.WriteLine("2 - Sim");
-unknown.Class= int.Parse(Console.ReadLine());
-
 int k = 7;
 
 Console.WriteLine("With k = " + k);
